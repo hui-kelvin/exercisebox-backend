@@ -1,10 +1,17 @@
 const AWS = require('aws-sdk');
 
+
+// For the western team members
+// AWS.config.update({
+//     region: 'us-west-1'
+// });
+
+// For the eastern team members
 AWS.config.update({
-    region: 'us-west-1'
+    region: 'us-east-1'
 });
 
-const  docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 const TABLE = "ebox_users";
 
@@ -57,4 +64,4 @@ function updateByUsername(username, field, value) {
 
 }
 
-module.exports = { getUser, addUser, retrieveList, updateByUsername};
+module.exports = { getUser, addUser, retrieveList, updateByUsername };
