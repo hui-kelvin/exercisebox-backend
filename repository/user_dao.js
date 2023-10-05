@@ -4,13 +4,15 @@ AWS.config.update({
     region: 'us-west-1'
 });
 
-const  docClient = new AWS.DynamoDB.DocumentClient();
-
+const docClient = new AWS.DynamoDB.DocumentClient();
 const TABLE = "ebox_users";
 
-function addUser(user) {
+
+function addUser(username, password, gender,weight, height) {
     const params = {
         TableName: TABLE,
+       
+        //Changed this, perhaps change it back @hui-kelvin! 
         Item: user
     };
     return docClient.put(params).promise();
@@ -57,4 +59,4 @@ function updateByUsername(username, field, value) {
 
 }
 
-module.exports = { getUser, addUser, retrieveList, updateByUsername};
+module.exports = { getUser, addUser, retrieveList, updateByUsername };
