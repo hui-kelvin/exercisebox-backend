@@ -44,7 +44,7 @@ app.post('/login', util.validateUsernameAndPassword, (req, res) => {
       if (userNameData.Items[0].password == req.password) {
         const token = util.createJWT(userNameData.Items[0].username, userNameData.Items[0].role)
         res.writeHead(200, { 'Content-Type': 'application/json', 'User-Logged-In': `${userNameData.Items[0].username}`, 'Role': `${userNameData.Items[0].role}` });
-        res.end(JSON.stringify({ message: "Successfully Authenticated, Welcome User", role: userNameData.Items[0].role, token: token }));
+        res.end(JSON.stringify({ message: `Successfully Authenticated, Welcome ${userNameData.Items[0].username}`, role: userNameData.Items[0].role, token: token }));
       }
       else {
         res.writeHead(400, { 'Content-Type': 'application/json' });
