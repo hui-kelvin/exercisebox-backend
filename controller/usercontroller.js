@@ -3,6 +3,8 @@ const jwtUtil = require('../utility/jwt_utils.js');
 const bodyParser = require('body-parser');
 const userService = require('../service/userservice.js');
 const router = express.Router()
+const bcrypt = require('bcrypt');
+
 
 
 router.use(bodyParser.json());
@@ -47,7 +49,8 @@ router.post('/login',validateCredFields, async(req,res) => {
         const results = await userService.getUser(username);
         if(results.Items.length > 0) {
             const retrievedUser = results.Items[0];
-            if(retrievedUser.password === password) {
+            const passwordMatch = bcrypt.compareSync(password, retrievedUser.password);
+            if(passwordMatch) {
                 const token = jwtUtil.createJWT(retrievedUser.username, retrievedUser.role);
                 res.statusCode = 202;
                 res.send({
