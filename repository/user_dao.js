@@ -6,7 +6,7 @@ AWS.config.update({
 
 const  docClient = new AWS.DynamoDB.DocumentClient();
 
-const TABLE = "ebox_users";
+const TABLE = "exercisebox_users";
 
 function addUser(user) {
     const params = {

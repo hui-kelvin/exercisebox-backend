@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const userService = require('../service/userservice.js');
 const router = express.Router()
 const bcrypt = require('bcrypt');
-
+const User = require('../models/user');
+const userDao = require('../repository/user_dao');
 
 
 router.use(bodyParser.json());
@@ -22,13 +23,13 @@ const validateCredFields = (req, res, next) => {
 router.post('/register',validateCredFields, async(req,res) => {
     const body = req.body;
     if(body.valid) {
-        const { username, password } = body;
+        const { username, password, gender, weight, height } = body;
         const results = await userService.getUser(username);
         if(results.Items.length > 0) {
             res.statusCode = 400;
             res.send({message:'Username already exists, please choose another.'});
         } else {
-            const newUser = new User(username,password);
+            const newUser = new User(username,password,gender,weight,height);
             userDao.addUser(newUser)
                 .then((data) => {
                     res.statusCode = 201;
@@ -94,3 +95,5 @@ router.put('/update/:username', async (req, res) => {
     }
 
 })
+
+module.exports = router;
