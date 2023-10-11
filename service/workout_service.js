@@ -1,23 +1,50 @@
 
 const workoutDao = require('../repository/workout_dao');
 
-async function getUserPlanner(username)
+function beginningOfWeek(date)
 {
-    const result = workoutDao.getUserPlanner(username);
+    if(date.getDay()>0)
+    {
+        date.setDate(date.getDate()-date.getDay());
+    }
+    return date;
+}
+async function getUserPlanner(username, date)
+{
+    const result = workoutDao.getUserPlanner(username, beginningOfWeek(date));
     return result;
 }
-function updateWeek(username, week)
+async function getAllUserPlanners(username)
 {
-    const result = workoutDao.updateWeek(username, week);
+    const result = workoutDao.getAllUserPlanners(username);
     return result;
 }
-function updateCompleted(username, completed)
+function addPlanner(username, date, week)
 {
-    const result = workoutDao.updateCompleted(username, completed);
+    if(!week)
+    {
+        throw new Error('No Exercises Planned')
+    }else{
+        const completed = false;
+        const result = workoutDao.addPlanner(username, beginningOfWeek(date), week, completed);
+        return result;
+    }
+    
+}
+function updatePlanner(username, date, week)
+{
+    const result = workoutDao.updatePlanner(username, beginningOfWeek(date), week);
+    return result;
+}
+function deletePlanner(username, date)
+{
+    const result = workoutDao.deletePlanner(username, beginningOfWeek(date));
     return result;
 }
 module.exports = {
     getUserPlanner,
-    updateWeek,
-    updateCompleted
+    getAllUserPlanners,
+    addPlanner,
+    updatePlanner,
+    deletePlanner
 };

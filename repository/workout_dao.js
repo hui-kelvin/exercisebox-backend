@@ -6,59 +6,76 @@ AWS.config.update({
 
 const  docClient = new AWS.DynamoDB.DocumentClient();
 
-const TABLE = "exercisebox_users";
+const TABLE = "exercisebox_planner";
 
-async function getUserPlanner(username) {
+async function getUserPlanner(username, date) {
+    const params = {
+        TableName: TABLE,
+        Key: {
+            username,
+            date
+        }
+    }
+    return docClient.get(params).promise();
+}
+async function getAllUserPlanners(username) {
     const params = {
         TableName: TABLE,
         Key: {
             username
         }
     }
-    return docClient.get(params).promise();
+    return docClient.query(params).promise();
 }
-
-function updateWeek(username, week) {
+function addPlanner(username, date, week, completed)
+{
+    const params = {
+        TableName: TABLE,
+        Item: {
+            username,
+            date,
+            week,
+            completed
+        },
+        ConditionExpression: 'attribute_not_exists(username) AND attribute_not_exists(date)' 
+    };
+    return docClient.put(params).promise();
+}
+function updatePlanner(username, date, week, completed) {
     const params = {
         TableName: TABLE,
         Key: {
-            username
+            username,
+            date
         },
-        UpdateExpression: `set #w = :w`,
+        UpdateExpression: `set #w = :w, #c = :c`,
         ExpressionAttributeNames: {
             '#w': 'week',
-        },
-        ExpressionAttributeValues: {
-            ':w': week,
-        },
-        ConditionExpression: '!contains(#w, :w)'
-    };
-    const result = docClient.update(params).promise();
-    return result;
-
-}
-function updateCompleted(username, completed) {
-    const params = {
-        TableName: TABLE,
-        Key: {
-            username
-        },
-        UpdateExpression: `set  #c = :c`,
-        ExpressionAttributeNames: {
             '#c': 'completed'
         },
         ExpressionAttributeValues: {
+            ':w': week,
             ':c': completed
-        },
-        ConditionExpression: '!contains(#c, :c)'
+        }
     };
     const result = docClient.update(params).promise();
     return result;
 
 }
-
+function deletePlanner(username, date) {
+    const params = {
+        TableName: TABLE,
+        Key: {
+            username,
+            date
+        }
+    }
+    return docClient.delete(params).promise();
+}
 module.exports = {
     getUserPlanner,
-    updateWeek,
-    updateCompleted
+    getAllUserPlanners,
+    addPlanner,
+    updatePlanner,
+    deletePlanner
 };
