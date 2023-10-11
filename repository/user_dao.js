@@ -4,7 +4,7 @@ AWS.config.update({
     region: 'us-west-1'
 });
 
-const  docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 const TABLE = "exercisebox_users";
 
@@ -38,6 +38,7 @@ function retrieveList() {
     return docClient.scan(params).promise();
 }
 
+// field needs to be a string value
 function updateByUsername(username, field, value) {
     const params = {
         TableName: TABLE,
@@ -57,4 +58,4 @@ function updateByUsername(username, field, value) {
 
 }
 
-module.exports = { getUser, addUser, retrieveList, updateByUsername};
+module.exports = { getUser, addUser, retrieveList, updateByUsername };
