@@ -43,6 +43,19 @@ router.use(authToken);
 
 router.get('/', (req, res) => { 
     const param = req.body;
+    workoutService.getAllUserPlanners(param.username)
+    .then((data) => {
+        logger.info('Successful Retrieval of Planner!')
+        res.send(data.Items);
+    })
+    .catch((err) => {
+        logger.error(err);
+        res.status(400).send({message: 'Failed to Retrieve Planner!',
+                                error: err});
+    })
+});
+router.get('/plan', (req, res) => { 
+    const param = req.body;
     workoutService.getUserPlanner(param.username)
     .then((data) => {
         logger.info('Successful Retrieval of Planner!')
@@ -54,17 +67,24 @@ router.get('/', (req, res) => {
                                 error: err});
     })
 });
-
 router.post('/week', (req, res) => { 
     const param = req.body;
-    workoutService.addPlanner(param.username, param.date, param.week)
+    workoutService.getRefreshToken(param.username)
     .then((data) => {
-        logger.info('Successfully Added Planner!')
-        res.status(200).send({message: 'Successfully Added Planner!'});
+         workoutService.addPlanner(param.username, param.date, param.week, data.refresh_token)
+        .then((data) => {
+            logger.info('Successfully Added Planner!')
+            res.status(200).send({message: 'Successfully Added Planner!'});
+        })
+        .catch((err) => {
+        logger.error(err);
+        res.status(400).send({message: 'Failed to Add Planner!',
+                                error: err});
+        })
     })
     .catch((err) => {
         logger.error(err);
-        res.status(400).send({message: 'Failed to Add Planner!',
+        res.status(400).send({message: 'Failed to Retrieve Google Refresh Token!',
                                 error: err});
     })
 });
@@ -95,4 +115,4 @@ router.delete('/delete', (req, res) => {
                                 error: err});
     })
 });
-module.exports = router;
+

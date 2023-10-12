@@ -19,19 +19,24 @@ async function getAllUserPlanners(username)
     const result = workoutDao.getAllUserPlanners(username);
     return result;
 }
-function addPlanner(username, date, week)
+async function getRefreshToken(username)
+{
+    const result = workoutDao.getRefreshToken(username);
+    return result;
+}
+async function addPlanner(username, date, week, refresh_token)
 {
     if(!week)
     {
         throw new Error('No Exercises Planned')
     }else{
         const completed = false;
-        const result = workoutDao.addPlanner(username, beginningOfWeek(date), week, completed);
+        const result = workoutDao.addPlanner(username, beginningOfWeek(date), week, completed, refresh_token);
         return result;
     }
     
 }
-function updatePlanner(username, date, week)
+async function updatePlanner(username, date, week)
 {
     const result = workoutDao.updatePlanner(username, beginningOfWeek(date), week);
     return result;
@@ -44,6 +49,7 @@ function deletePlanner(username, date)
 module.exports = {
     getUserPlanner,
     getAllUserPlanners,
+    getRefreshToken,
     addPlanner,
     updatePlanner,
     deletePlanner
