@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Promise = require('bluebird');
 
-function createJWT(username, role){
+function createJWT(username, role) {
     return jwt.sign({
         username,
         role
@@ -21,7 +21,7 @@ function createJWT(username, role){
 jwt.verify = Promise.promisify(jwt.verify); // Turn jwt.verify into a function that returns a promise
 
 // verify
-function verifyTokenAndReturnPayload(token){
+function verifyTokenAndReturnPayload(token) {
     return jwt.verify(token, 'thisisanothersecret');
 }
 
