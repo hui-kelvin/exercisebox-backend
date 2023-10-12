@@ -36,9 +36,9 @@ async function addPlanner(username, date, week, refresh_token)
     }
     
 }
-async function updatePlanner(username, date, week)
+async function updatePlanner(username, date, week, refresh_token, completed)
 {
-    const result = workoutDao.updatePlanner(username, beginningOfWeek(date), week);
+    const result = workoutDao.updatePlanner(username, beginningOfWeek(date), week, refresh_token, completed);
     return result;
 }
 function deletePlanner(username, date)
