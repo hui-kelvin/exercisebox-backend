@@ -88,7 +88,7 @@ async function addPlanner(username, date, week, completed, REFRESH_TOKEN)
     };
     return docClient.put(params).promise();
 }
-async function updatePlanner(username, date, week, completed) {
+async function updatePlanner(username, date, week, completed REFRESH_TOKEN) {
     oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN});
     const calendar = google.calendar('v3');
     for(const day in week){

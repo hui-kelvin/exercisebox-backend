@@ -91,16 +91,25 @@ router.post('/week', (req, res) => {
 
 router.put('/update', (req, res) => { 
     const param = req.body;
-    workoutService.updatePlanner(param.username, param.date, param.week, param.completed)
+    workoutService.getRefreshToken(param.username)
     .then((data) => {
-        logger.info('Successfully Updated Planner!')
-        res.status(200).send({message: 'Successfully Updated Planner!'});
+        workoutService.updatePlanner(param.username, param.date, param.week, param.completed)
+        .then((data) => {
+            logger.info('Successfully Updated Planner!')
+            res.status(200).send({message: 'Successfully Updated Planner!'});
+        })
+        .catch((err) => {
+            logger.error(err);
+            res.status(400).send({message: 'Failed to Update Planner!',
+                                    error: err});
+        })
     })
     .catch((err) => {
         logger.error(err);
-        res.status(400).send({message: 'Failed to Update Planner!',
+        res.status(400).send({message: 'Failed to Retrieve Google Refresh Token!',
                                 error: err});
     })
+    
 });
 router.delete('/delete', (req, res) => { 
     const param = req.body;
