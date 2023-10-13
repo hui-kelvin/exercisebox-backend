@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const KEY = fs.readFileSync('rapidAPIkey.txt', { encoding: 'utf8', flag: 'r' });
+//const KEY = fs.readFileSync('rapidAPIkey.txt', { encoding: 'utf8', flag: 'r' });
 
 async function getExercises(params) {
     const queryString = buildQueryString(params);
@@ -9,7 +9,7 @@ async function getExercises(params) {
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': KEY,
+            //'X-RapidAPI-Key': KEY,
             'X-RapidAPI-Host': 'exercises-by-api-ninjas.p.rapidapi.com'
         }
     };

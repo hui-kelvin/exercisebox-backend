@@ -56,6 +56,7 @@ router.post('/login', validateCredFields, async (req, res) => {
                 res.statusCode = 202;
                 res.send({
                     message: `Successfully authenticated. Welcome ${retrievedUser.role}: ${retrievedUser.username}`,
+                    username: retrievedUser.username,
                     token: token
                 })
             } else {
