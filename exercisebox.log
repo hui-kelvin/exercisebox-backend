@@ -1,0 +1,39 @@
+2023-10-16T20:10:44.701Z [error]: No Exercises Planned
+2023-10-16T20:11:40.873Z [error]: No Exercises Planned
+2023-10-16T20:12:10.030Z [error]: No Exercises Planned
+2023-10-16T20:12:18.788Z [error]: No Exercises Planned
+2023-10-16T20:12:48.862Z [error]: No Exercises Planned
+2023-10-16T20:13:49.012Z [error]: No Exercises Planned
+2023-10-16T20:14:48.794Z [error]: No Exercises Planned
+2023-10-16T20:23:22.869Z [error]: No Exercises Planned
+2023-10-16T20:24:12.892Z [error]: No Exercises Planned
+2023-10-16T20:26:52.876Z [error]: Cannot read properties of undefined (reading 'getDay')
+2023-10-16T20:29:29.987Z [error]: Cannot read properties of undefined (reading 'getDay')
+2023-10-16T20:31:40.479Z [error]: date.getDay is not a function
+2023-10-16T20:32:17.278Z [error]: date.getDay is not a function
+2023-10-16T20:33:04.513Z [error]: Requested resource not found
+2023-10-16T20:36:46.855Z [error]: Requested resource not found
+2023-10-16T20:43:18.411Z [error]: Requested resource not found
+2023-10-16T20:57:52.561Z [error]: Requested resource not found
+2023-10-16T20:58:31.973Z [error]: Requested resource not found
+2023-10-16T21:07:45.308Z [error]: Requested resource not found
+2023-10-16T21:16:07.248Z [error]: Requested resource not found
+2023-10-16T21:17:22.690Z [error]: Requested resource not found
+2023-10-16T21:18:07.332Z [error]: Requested resource not found
+2023-10-16T21:20:03.659Z [error]: Requested resource not found
+2023-10-16T21:21:44.501Z [error]: One or more parameter values were invalid: Missing the key date in the item
+2023-10-16T21:22:16.842Z [error]: One or more parameter values were invalid: Type mismatch for key date expected: S actual: M
+2023-10-16T21:22:44.498Z [info]: Successfully Added Planner!
+2023-10-16T21:26:45.231Z [info]: Successfully Added Planner!
+2023-10-16T21:28:22.485Z [info]: Successfully Added Planner!
+2023-10-16T21:30:49.778Z [error]: Cannot read properties of undefined (reading 'getDay')
+2023-10-16T21:33:28.646Z [error]: date.getDay is not a function
+2023-10-16T21:34:16.059Z [error]: The provided key element does not match the schema
+2023-10-16T21:35:59.950Z [info]: Successful Retrieval of Planner!
+2023-10-16T21:36:50.989Z [info]: Successful Retrieval of Planner!
+2023-10-16T21:39:59.652Z [error]: ExpressionAttributeValues must not be empty
+2023-10-16T21:41:17.770Z [error]: newdate is not defined
+2023-10-16T21:41:37.860Z [error]: ExpressionAttributeValues must not be empty
+2023-10-16T21:42:42.635Z [error]: ExpressionAttributeValues must not be empty
+2023-10-16T21:42:51.500Z [info]: Successfully Updated Planner!
+2023-10-16T21:45:33.790Z [info]: Successfully Deleted Planner!
