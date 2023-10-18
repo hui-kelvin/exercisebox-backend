@@ -1,4 +1,7 @@
 const AWS = require('aws-sdk');
+const s3Client = new AWS.S3();
+const crypto = require('crypto');
+
 
 AWS.config.update({
     region: 'us-west-1'
@@ -7,6 +10,21 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const TABLE = "exercisebox_users";
+
+
+async function generatUploadURL() {
+    const rawbytes = await crypto.randomBytes(16);
+    const imageName = rawbytes.toString('hex');
+
+    const params = ({
+        Bucket: "exercisebox-bucket",
+        Key: imageName,
+        Expires: 60
+    });
+
+    const uploadURL = await s3Client.getSignedUrlPromise('putObject', params);
+    return uploadURL;
+}
 
 function addUser(user) {
     const params = {
@@ -58,4 +76,4 @@ function updateByUsername(username, field, value) {
 
 }
 
-module.exports = { getUser, addUser, retrieveList, updateByUsername };
+module.exports = { getUser, addUser, retrieveList, updateByUsername, generatUploadURL };

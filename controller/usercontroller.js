@@ -7,6 +7,10 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const userDao = require('../repository/user_dao');
 const middleWare = require('../utility/middleWare');
+const cors = require('cors');
+const { S3 } = require('aws-sdk');
+
+router.use(cors());
 
 router.use(bodyParser.json());
 
@@ -100,7 +104,8 @@ router.get('/', (req, res) => {
     res.send("hello world");
 });
 
-router.put('/edit/password', middleWare.validateToken, middleWare.validateUser, middleWare.validatePassword, (req, res) => {
+// middleWare.validateToken, middleWare.validateUser, middleWare.validatePassword,
+router.put('/edit/password', (req, res) => {
     // res.send({ userN: req.body.username, passW: req.body.password });
     const reqUsername = req.username;
     const reqPassword = req.body.password;
@@ -121,7 +126,8 @@ router.put('/edit/password', middleWare.validateToken, middleWare.validateUser, 
         });
 });
 
-router.put('/edit/gender', middleWare.validateToken, middleWare.validateUser, middleWare.validateGender, (req, res) => {
+// middleWare.validateToken, middleWare.validateUser, middleWare.validateGender,
+router.put('/edit/gender', (req, res) => {
     // res.send({ userN: req.body.username, passW: req.body.password });
     const reqUsername = req.username;
     const reqGender = req.body.gender;
@@ -139,7 +145,8 @@ router.put('/edit/gender', middleWare.validateToken, middleWare.validateUser, mi
         });
 });
 
-router.put('/edit/height', middleWare.validateToken, middleWare.validateUser, middleWare.validateHeight, (req, res) => {
+// middleWare.validateToken, middleWare.validateUser, middleWare.validateHeight,
+router.put('/edit/height', (req, res) => {
     // res.send({ userN: req.body.username, passW: req.body.password });
     const reqUsername = req.username;
     const reqHeight = req.body.height;
@@ -157,12 +164,13 @@ router.put('/edit/height', middleWare.validateToken, middleWare.validateUser, mi
         });
 });
 
-router.put('/edit/weight', middleWare.validateToken, middleWare.validateUser, middleWare.validateWeight, (req, res) => {
-    // res.send({ userN: req.body.username, passW: req.body.password });
-    const reqUsername = req.username;
-    const reqWeight = req.body.weight;
+// middleWare.validateToken, middleWare.validateUser, middleWare.validateWeight,
 
-    userDao.updateByUsername(reqUsername, "weight", reqWeight)
+router.put('/edit/weight', (req, res) => {
+    // const reqUsername = req.username;
+    // const reqWeight = req.body.weight;
+
+    userDao.updateByUsername(reqUsername, "weight", req.body.weight)
         .then((data) => {
             // console.log(data);
             res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -174,5 +182,95 @@ router.put('/edit/weight', middleWare.validateToken, middleWare.validateUser, mi
             res.end(JSON.stringify({ message: "Failed to update weight." }));
         });
 });
+
+router.get('/user', async (req, res) => {
+    // res.send({ userN: req.body.username, passW: req.body.password });
+    const reqUsername = "user1";
+
+
+    try {
+        const results = await userDao.getUser(reqUsername);
+        console.log(results);
+        if (results.Items.length > 0) {
+            res.statusCode = 200
+            res.send({ userData: results.Items[0] });
+        }
+        else {
+            res.statusCode = 400
+            res.send({ message: "Account does not exist." });
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.statusCode = 400
+        res.send({ message: "Failed to get user." });
+    }
+
+});
+
+router.put('/update', async (req, res) => {
+
+    // const { /*username,*/ /*password,*/ gender, height, weight } = req.body;
+    // const salt = 10;
+    // const newPassword = bcrypt.hashSync(password, salt);
+    const username = "user1";
+    // const newUsername = req.body.newUsername;
+    const password = req.body.password;
+    const gender = req.body.gender;
+    const weight = req.body.weight;
+    const height = req.body.height;
+    const aboutme = req.body.aboutme;
+    const goals = req.body.goals
+
+    const salt = 10;
+
+    const newPassword = bcrypt.hashSync(password, salt);
+
+    try {
+        const results = await userDao.getUser(username);
+        // console.log(results)
+        if (results.Items.length > 0) {
+            // userDao.updateByUsername(username, "password", newPassword);
+            // if (newUsername != "") {
+            //     userDao.updateByUsername(username, "username", newUsername);
+            // }
+            if (password != "") {
+                userDao.updateByUsername(username, "password", newPassword);
+            }
+            if (gender != "") {
+                userDao.updateByUsername(username, "gender", gender);
+            }
+            if (weight != "") {
+                userDao.updateByUsername(username, "weight", weight);
+            }
+            if (height != "") {
+                userDao.updateByUsername(username, "height", height);
+            }
+            if (aboutme != "") {
+                userDao.updateByUsername(username, "aboutme", aboutme);
+            }
+            if (goals != "") {
+                userDao.updateByUsername(username, "goals", goals);
+            }
+            res.statusCode = 200
+            res.send({ userData: results.Items[0] });
+        }
+        else {
+            res.statusCode = 400
+            res.send({ message: "Account does not exist." });
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.statusCode = 400
+        res.send({ message: "Failed to get user." });
+    }
+
+})
+
+router.get('/s3Url', async (req, res) => {
+    const url = await userDao.generatUploadURL();
+    res.send({ url });
+})
 
 module.exports = router;
