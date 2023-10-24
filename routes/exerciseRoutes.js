@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
         const result = await exerciseService.getExercises(params);
         res.send(result);
     } catch(err) {
-        console.log(err);
+        res.send({ message: `${err.stack}` });
     }
 })
 

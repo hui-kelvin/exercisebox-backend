@@ -19,7 +19,7 @@ function validateToken(req, res, next) {
     verifyTokenAndReturnPayload(token).then((payload) => {
 
         req.username = payload.username;
-        req.role = payload.role;
+        // req.role = payload.role;
 
         // console.log(req.username);
         // console.log(req.role);

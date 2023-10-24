@@ -3,13 +3,12 @@ const Promise = require('bluebird');
 
 function createJWT(username, role) {
     return jwt.sign({
-        username,
-        role
+        username: username,
+        role: role
     }, 'thisisanothersecret', {
         expiresIn: '1d'
     })
 }
-// (header + payload) sign with the secret -> signature "thisisasecret"
 
 /**
  * The JWT will be sent to the client

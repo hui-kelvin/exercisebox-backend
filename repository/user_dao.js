@@ -18,7 +18,7 @@ function addUser(user) {
 
 // Read
 // retrieve by username
-async function getUser(username) {
+function getUser(username) {
     const params = {
         TableName: TABLE,
         KeyConditionExpression: 'username = :username',
@@ -26,7 +26,7 @@ async function getUser(username) {
             ':username': username,
         }
     }
-    const result = await docClient.query(params).promise();
+    const result = docClient.query(params).promise();
     return result;
 }
 
